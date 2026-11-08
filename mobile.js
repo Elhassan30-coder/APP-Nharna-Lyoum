@@ -196,4 +196,7 @@ function sync() {
 }
 window.addEventListener('hashchange', closeLayers);
 sync();
+
+/* Module des fonctions supplémentaires (checklist, charges récurrentes, dettes) */
+var ex = document.createElement('script'); ex.src = 'extras.js'; document.body.appendChild(ex);
 })();

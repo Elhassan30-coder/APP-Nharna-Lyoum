@@ -1,5 +1,5 @@
-var V = 'nharna-v1';
-var CORE = ['./', 'index.html', 'mobile.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
+var V = 'nharna-v2';
+var CORE = ['./', 'index.html', 'mobile.js', 'extras.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(V).then(function (c) {
     return Promise.all(CORE.map(function (u) { return c.add(u).catch(function () {}); }));
