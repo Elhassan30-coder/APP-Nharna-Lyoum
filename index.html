@@ -1756,6 +1756,7 @@ document.addEventListener('keydown',function(e){
   if($('#modal').hidden&&((e.key==='/'&&!inField)||((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='k'))){e.preventDefault();searchModal()}
   if(e.key==='Enter'&&e.target.id&&e.target.id.indexOf('cat-')===0){e.preventDefault();var b=$('[data-act="add-cat"][data-k="'+e.target.id.slice(4)+'"]');if(b)b.click()}
 });
+window.NL={get db(){return db},set db(v){db=v},get lang(){return lang},commit:commit,persist:persist,toast:toast,uid:uid,t:t,money:moneyTxt,dparts:dparts,today:today,byId:byId,catList:catList,openModal:openModal,closeModal:closeModal,formErr:formErr,fld:fld,inp:inp,sel:sel};
 window.addEventListener('hashchange',function(){var h=location.hash.replace('#','');if(VIEWS.indexOf(h)>=0)navView=h;pendingRestore=null;render();window.scrollTo(0,0)});
 
 render();
