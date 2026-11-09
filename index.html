@@ -578,8 +578,9 @@ var db=(function(){
   try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);if(o&&o.clients)return normalize(o)}}catch(e){}
   return seed();
 })();
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(db));storageFull=false}catch(e){if(storageOK)storageFull=true}}
-persist();
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(db));storageFull=false}catch(e){if(storageOK)storageFull=true}
+  try{if(window.NL_onPersist)window.NL_onPersist(db)}catch(e){}}
+  persist();
 
 /* ---------- derived values ---------- */
 function paidOf(id){return sum(db.advances.filter(function(a){return a.clientId===id}),function(a){return a.amount})}
