@@ -511,9 +511,9 @@ try{localStorage.setItem('__t','1');localStorage.removeItem('__t')}catch(e){stor
 function normalize(d){
   function arr(a){return Array.isArray(a)?a:[]}
   var dm=d.meta||{},dc=dm.cats||{};
-  var o={clients:arr(d.clients),advances:arr(d.advances),items:arr(d.items),staff:arr(d.staff),suppliers:arr(d.suppliers),expenses:arr(d.expenses),attendance:arr(d.attendance),stats:arr(d.stats),meta:{lastBackup:dm.lastBackup||'',company:Object.assign({name:'',phone:'',address:''},dm.company||{}),cats:{ic:arr(dc.ic),ec:arr(dc.ec)},logo:dm.logo||'',social:Object.assign({instagram:'',facebook:'',tiktok:'',whatsapp:'',website:''},dm.social||{}),sheetUrl:dm.sheetUrl||'',lastSheet:dm.lastSheet||''}};
+  var o={clients:arr(d.clients),catalog:arr(d.catalog),advances:arr(d.advances),items:arr(d.items),staff:arr(d.staff),suppliers:arr(d.suppliers),expenses:arr(d.expenses),attendance:arr(d.attendance),stats:arr(d.stats),meta:{lastBackup:dm.lastBackup||'',company:Object.assign({name:'',phone:'',address:''},dm.company||{}),cats:{ic:arr(dc.ic),ec:arr(dc.ec)},logo:dm.logo||'',social:Object.assign({instagram:'',facebook:'',tiktok:'',whatsapp:'',website:''},dm.social||{}),sheetUrl:dm.sheetUrl||'',lastSheet:dm.lastSheet||''}};
   o.clients.forEach(function(c){c.phone2=c.phone2||'';c.address=c.address||'';c.lines=arr(c.lines);c.staffIds=arr(c.staffIds);c.total=num(c.total);c.date=c.date||'';c.status=c.status||'quote';c.photos=arr(c.photos);c.source=c.source||'';c.review=(c.review&&typeof c.review==='object')?c.review:null});
-  o.advances.forEach(function(a){a.amount=num(a.amount);a.date=a.date||today()});
+  o.catalog.forEach(function(k){k.price=num(k.price);k.photo=k.photo||'';k.materials=arr(k.materials);k.type=k.type||'service'});o.advances.forEach(function(a){a.amount=num(a.amount);a.date=a.date||today()});
   o.items.forEach(function(i){i.qty=num(i.qty);i.cost=num(i.cost);i.toBuy=num(i.toBuy);i.photo=i.photo||''});
   o.staff.forEach(function(s){s.rate=num(s.rate)});
   o.suppliers.forEach(function(x){x.name=x.name||'';x.contact=x.contact||'';x.phone=x.phone||'';x.email=x.email||'';x.address=x.address||'';x.service=x.service||'other';x.offer=x.offer||'';x.note=x.note||''});
