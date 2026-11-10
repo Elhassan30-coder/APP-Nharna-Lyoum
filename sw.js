@@ -1,4 +1,4 @@
-var V = 'nharna-v2';
+var V = 'nharna-v3';
 var CORE = ['./', 'index.html', 'mobile.js', 'extras.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(V).then(function (c) {
