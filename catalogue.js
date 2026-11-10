@@ -14,7 +14,7 @@ en: { title: 'Catalogue', add: 'New entry', sv: 'Service', dc: 'Decoration model
   pickT: 'Catalogue', pickPh: 'Choose a service or a model...', pickAdd: 'Add to order',
   pickHint: 'Details are copied into the order. Equipment is added to the list above, and the total updates as long as you have not changed it by hand.',
   pickNone: 'The catalogue is empty. Add entries in the Catalogue section.', pickTotal: 'Catalogue total',
-  sheet: 'Team sheet', sheetT: 'Preparation sheet', sClient: 'Client', sEvent: 'Event', sWhen: 'Date', sWhere: 'Venue', sAddr: 'Address', sPhone: 'Phone',
+  pickBtn: 'Catalogue', pickBtnT: 'Catalogue · {n}', sheet: 'Team sheet', sheetT: 'Preparation sheet', sClient: 'Client', sEvent: 'Event', sWhen: 'Date', sWhere: 'Venue', sAddr: 'Address', sPhone: 'Phone',
   sTeam: 'Team', sSvc: 'Services and decoration', sDur: 'Duration', sDet: 'Details', sMat: 'Equipment', sEq: 'Equipment for this event', sOrder: 'Order notes',
   sCheck: 'Checklist', sPrint: 'Print or save as PDF', sNone: 'No service selected for this client.', sOpenFail: 'Pop-up blocked, the file was downloaded instead.', sQty: 'Qty', sItem: 'Item' },
 fr: { title: 'Catalogue', add: 'Nouvelle fiche', sv: 'Service', dc: 'Modèle de décoration', all: 'Tout', search: 'Rechercher dans le catalogue...',
@@ -25,7 +25,7 @@ fr: { title: 'Catalogue', add: 'Nouvelle fiche', sv: 'Service', dc: 'Modèle de 
   pickT: 'Catalogue', pickPh: 'Choisir un service ou un modèle...', pickAdd: 'Ajouter à la commande',
   pickHint: "Les détails sont copiés dans la commande. Le matériel est ajouté à la liste ci-dessus, et le total se met à jour tant que vous ne l'avez pas modifié à la main.",
   pickNone: 'Le catalogue est vide. Ajoutez des fiches dans la section Catalogue.', pickTotal: 'Total du catalogue',
-  sheet: 'Fiche équipe', sheetT: 'Fiche de préparation', sClient: 'Client', sEvent: 'Événement', sWhen: 'Date', sWhere: 'Lieu', sAddr: 'Adresse', sPhone: 'Téléphone',
+  pickBtn: 'Catalogue', pickBtnT: 'Catalogue · {n}', sheet: 'Fiche équipe', sheetT: 'Fiche de préparation', sClient: 'Client', sEvent: 'Événement', sWhen: 'Date', sWhere: 'Lieu', sAddr: 'Adresse', sPhone: 'Téléphone',
   sTeam: 'Équipe', sSvc: 'Services et décoration', sDur: 'Durée', sDet: 'Détails', sMat: 'Matériel', sEq: 'Matériel pour cet événement', sOrder: 'Notes de la commande',
   sCheck: 'Checklist', sPrint: 'Imprimer ou enregistrer en PDF', sNone: 'Aucun service sélectionné pour ce client.', sOpenFail: 'Fenêtre bloquée, le fichier a été téléchargé à la place.', sQty: 'Qté', sItem: 'Article' },
 ar: { title: 'الكتالوغ', add: 'بطاقة جديدة', sv: 'خدمة', dc: 'نموذج ديكور', all: 'الكل', search: 'ابحث في الكتالوغ...',
@@ -36,7 +36,7 @@ ar: { title: 'الكتالوغ', add: 'بطاقة جديدة', sv: 'خدمة', d
   pickT: 'الكتالوغ', pickPh: 'اختر خدمة أو نموذجا...', pickAdd: 'إضافة إلى الطلب',
   pickHint: 'تنسخ التفاصيل إلى الطلب. تضاف المعدات إلى القائمة أعلاه، ويتحدث المجموع ما دمت لم تعدله يدويا.',
   pickNone: 'الكتالوغ فارغ. أضف بطاقات في قسم الكتالوغ.', pickTotal: 'مجموع الكتالوغ',
-  sheet: 'ورقة الفريق', sheetT: 'ورقة التحضير', sClient: 'الزبون', sEvent: 'الحفل', sWhen: 'التاريخ', sWhere: 'المكان', sAddr: 'العنوان', sPhone: 'الهاتف',
+  pickBtn: 'الكتالوغ', pickBtnT: 'الكتالوغ · {n}', sheet: 'ورقة الفريق', sheetT: 'ورقة التحضير', sClient: 'الزبون', sEvent: 'الحفل', sWhen: 'التاريخ', sWhere: 'المكان', sAddr: 'العنوان', sPhone: 'الهاتف',
   sTeam: 'الفريق', sSvc: 'الخدمات والديكور', sDur: 'المدة', sDet: 'التفاصيل', sMat: 'المعدات', sEq: 'معدات هذا الحفل', sOrder: 'ملاحظات الطلب',
   sCheck: 'قائمة المهام', sPrint: 'طباعة أو حفظ PDF', sNone: 'لم تتم إضافة أي خدمة لهذا الزبون.', sOpenFail: 'تم حظر النافذة، تم تحميل الملف بدلا من ذلك.', sQty: 'الكمية', sItem: 'البند' }
 };
@@ -60,7 +60,7 @@ function typeLabel(tp) { return s(tp === 'decor' ? 'dc' : 'sv'); }
 function byName(a, b) { return a.name.localeCompare(b.name, NL.lang); }
 
 var st = document.createElement('style');
-st.textContent = '.cg-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)}.cg-m{flex:1;min-width:0;display:flex;flex-direction:column}.cg-m span{font-size:13px}input.cg-q{width:72px;flex:none}.cg-pick{display:flex;gap:8px;margin-top:8px}.cg-img{width:100%;max-height:180px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block;cursor:pointer}';
+st.textContent = '.cg-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)}.cg-m{flex:1;min-width:0;display:flex;flex-direction:column}.cg-m span{font-size:13px}input.cg-q{width:72px;flex:none}.cg-pick{display:flex;gap:8px;margin-top:8px}.cg-chk{flex:1;display:flex;gap:10px;align-items:center;min-width:0;min-height:40px;cursor:pointer;font-weight:400}input.cg-ck{width:20px;height:20px;flex:none}input.cg-pq{width:72px;flex:none}.cg-h{margin:14px 0 4px;font-size:15px}.cg-img{width:100%;max-height:180px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block;cursor:pointer}';
 document.body.appendChild(st);
 
 /* ---------- Page Catalogue ---------- */
@@ -144,7 +144,8 @@ function readImage(file, max, q) {
 
 /* ---------- Choix dans le formulaire de commande (fiche client) ---------- */
 var formSel = [], lastAuto = 0;
-function selTotal() { return formSel.reduce(function (t, x) { return t + (+x.price || 0) * (+x.qty || 0); }, 0); }
+function sumOf(list) { return list.reduce(function (t, x) { return t + (+x.price || 0) * (+x.qty || 0); }, 0); }
+function selTotal() { return sumOf(formSel); }
 function totalTxt() { return esc(s('pickTotal') + ' : ' + NL.money(selTotal())); }
 function selHTML() {
   if (!formSel.length) return '';
@@ -195,6 +196,54 @@ window.NL_cat = {
   fieldset: function (c) { formSel = clone(c.services || []); lastAuto = selTotal(); return fieldsetHTML(); },
   collect: function () { return clone(formSel); }
 };
+
+/* ---------- Bouton « Catalogue » sur la fiche client : choix uniquement dans le catalogue ---------- */
+function mergeLines(c, mats, mult) {
+  c.lines = c.lines || [];
+  (mats || []).forEach(function (m) {
+    if (!NL.byId(NL.db.items, m.itemId)) return;
+    var l = c.lines.filter(function (x) { return x.itemId === m.itemId; })[0];
+    if (l) l.qty = (+l.qty || 0) + m.qty * mult; else c.lines.push({ itemId: m.itemId, qty: m.qty * mult });
+  });
+}
+function pickModal(id) {
+  var c = NL.byId(NL.db.clients, id); if (!c) return;
+  var title = s('pickBtnT', { n: c.name });
+  if (!cat().length) {
+    NL.openModal(title, '<p class="empty">' + esc(s('pickNone')) + '</p><div class="sheet-f"><span></span><span class="grp"><button type="button" class="btn" data-act="close-modal">' + esc(NL.t('close')) + '</button></span></div>');
+    return;
+  }
+  var cur = {}; (c.services || []).forEach(function (x) { cur[x.cid] = x; });
+  var groups = ['service', 'decor'].map(function (tp) {
+    var l = cat().filter(function (k) { return k.type === tp; }).sort(byName);
+    if (!l.length) return '';
+    return '<h3 class="cg-h">' + esc(typeLabel(tp)) + '</h3>' + l.map(function (k) {
+      var x = cur[k.id];
+      return '<div class="cg-row cg-opt"><label class="cg-chk"><input type="checkbox" class="cg-ck" value="' + k.id + '"' + (x ? ' checked' : '') + '><span class="cg-m"><strong>' + esc(k.name) + '</strong><span class="muted">' + esc(NL.money(k.price || 0)) + (k.duration ? ' · ' + esc(k.duration) : '') + '</span></span></label>' +
+        '<input class="cg-pq" type="number" min="1" step="1" inputmode="numeric" value="' + esc(x ? x.qty : 1) + '" aria-label="' + esc(NL.t('f.qty')) + '"></div>';
+    }).join('');
+  }).join('');
+  NL.openModal(title, '<form id="f" data-cat-submit="pick" data-id="' + id + '" novalidate><input id="cg-ms" type="search" placeholder="' + esc(s('search')) + '" aria-label="' + esc(s('search')) + '" autocomplete="off">' + groups + foot('') + '</form>');
+}
+function savePick(f) {
+  var c = NL.byId(NL.db.clients, f.getAttribute('data-id')); if (!c) return;
+  var old = c.services || [], oldTotal = sumOf(old), oldBy = {};
+  old.forEach(function (x) { oldBy[x.cid] = x; });
+  var next = old.filter(function (x) { return !NL.byId(cat(), x.cid); });
+  [].forEach.call(f.querySelectorAll('.cg-opt'), function (r) {
+    var ck = r.querySelector('.cg-ck'); if (!ck.checked) return;
+    var k = NL.byId(cat(), ck.value); if (!k) return;
+    var q = Math.max(1, parseInt(r.querySelector('.cg-pq').value, 10) || 1), prev = oldBy[k.id];
+    var x = prev || { cid: k.id, type: k.type, name: k.name, price: k.price || 0, duration: k.duration || '', desc: k.desc || '', details: k.details || '', materials: clone(k.materials || []) };
+    var delta = q - (prev ? prev.qty : 0);
+    x.qty = q;
+    if (delta > 0) mergeLines(c, x.materials, delta);
+    next.push(x);
+  });
+  c.services = next;
+  if (!(+c.total) || +c.total === oldTotal) c.total = sumOf(next);
+  NL.closeModal(); NL.commit(); NL.toast(NL.t('saved'));
+}
 
 /* ---------- Fiche imprimable pour l'équipe ---------- */
 function sheetDoc(c) {
@@ -253,11 +302,16 @@ root.addEventListener('click', function (e) {
   else if (a === 'view') { var k = NL.byId(cat(), id); if (k && k.photo) NL.openModal(k.name, '<div class="viewer"><img src="' + esc(k.photo) + '" alt=""></div>'); }
   else if (a === 'pick-add') pickAdd();
   else if (a === 'sel-rm') { formSel.splice(+b.getAttribute('data-i'), 1); refreshSel(); syncTotal(); }
+  else if (a === 'pick') pickModal(id);
   else if (a === 'sheet') openSheet(id);
 });
 root.addEventListener('input', function (e) {
   var t = e.target;
-  if (t.id === 'cg-q') { ui.q = t.value; var l = document.getElementById('cgList'); if (l) l.innerHTML = listHTML(); }
+  if (t.id === 'cg-ms') {
+    var qq = t.value.trim().toLowerCase();
+    [].forEach.call(root.querySelectorAll('.cg-opt'), function (r) { r.style.display = r.textContent.toLowerCase().indexOf(qq) >= 0 ? '' : 'none'; });
+  }
+  else if (t.id === 'cg-q') { ui.q = t.value; var l = document.getElementById('cgList'); if (l) l.innerHTML = listHTML(); }
   else if (t.classList && t.classList.contains('cg-q')) {
     var x = formSel[+t.getAttribute('data-i')]; if (!x) return;
     var nq = Math.max(1, parseInt(t.value, 10) || 1), old = x.qty; x.qty = nq;
@@ -275,8 +329,12 @@ root.addEventListener('change', function (e) {
   }
 });
 root.addEventListener('submit', function (e) {
-  var f = e.target; if (f.getAttribute('data-cat-submit') !== 'save') return;
-  e.preventDefault(); saveEntry(f);
+  var f = e.target, a = f.getAttribute('data-cat-submit'); if (!a) return;
+  e.preventDefault();
+  if (a === 'save') saveEntry(f); else if (a === 'pick') savePick(f);
+});
+root.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && e.target.id === 'cg-ms') e.preventDefault();
 });
 
 /* ---------- Bouton « Fiche équipe » et services sur les cartes clients ---------- */
@@ -285,6 +343,9 @@ function inject() {
     var ec = f.querySelector('[data-act="edit-client"]'); if (!ec) return;
     f.setAttribute('data-cgd', '1');
     var id = ec.getAttribute('data-id'), c = NL.byId(NL.db.clients, id); if (!c) return;
+    var n = (c.services || []).length;
+    var pb = document.createElement('button'); pb.type = 'button'; pb.className = 'btn sm'; pb.setAttribute('data-cat', 'pick'); pb.setAttribute('data-id', id); pb.textContent = s('pickBtn') + (n ? ' (' + n + ')' : '');
+    f.insertBefore(pb, ec);
     var b = document.createElement('button'); b.type = 'button'; b.className = 'btn sm'; b.setAttribute('data-cat', 'sheet'); b.setAttribute('data-id', id); b.textContent = s('sheet');
     f.insertBefore(b, ec);
     if ((c.services || []).length) {
