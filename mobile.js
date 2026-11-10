@@ -79,7 +79,7 @@ var css = [
 var st = document.createElement('style'); st.textContent = css; document.body.appendChild(st);
 
 /* ---------- Barre du bas, bouton + et menu Plus ---------- */
-var MAIN = ['home', 'calendar', 'clients', 'advances'], MORE = ['stock', 'staff', 'suppliers', 'expenses', 'finance', 'social', 'backup'];
+var MAIN = ['home', 'calendar', 'clients', 'advances'], MORE = ['catalogue', 'stock', 'staff', 'suppliers', 'expenses', 'finance', 'social', 'backup'];
 function mk(cls, tag) { var e = document.createElement(tag || 'div'); e.className = cls; document.body.appendChild(e); return e; }
 var nav = mk('mb-nav', 'nav'), fab = mk('mb-fab', 'button'), fabMenu = mk('mb-fabmenu'), more = mk('mb-more'), scrim = mk('mb-scrim');
 fab.type = 'button'; fab.setAttribute('data-mb-fab', '1');
