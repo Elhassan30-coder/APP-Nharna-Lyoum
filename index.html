@@ -1231,14 +1231,25 @@ function clientModal(id){
     fld('c-date',t('f.date'),inp('c-date',c.date,'date'))+
     fld('c-venue',t('f.venue'),inp('c-venue',c.venue))+
     fld('c-address',t('f.address'),inp('c-address',c.address),'full')+
+    fld('c-source',t('f.source'),srcSel(c.source),'full')+
     fld('c-status',t('f.status'),sel('c-status',OPT.st,c.status,'st.')+'<span class="hint">'+esc(t('hint.status'))+'</span>')+
     fld('c-total',t('f.total'),inp('c-total',c.total||'','number',numAttr()))+
-    fld('c-source',t('f.source'),srcSel(c.source))+
-    fld('c-order',t('f.order'),'<textarea id="c-order" rows="3">'+esc(c.order)+'</textarea>','full')+
-    '</div><fieldset class="fs"><legend>'+esc(t('f.equipment'))+'</legend><div id="lines">'+c.lines.map(lineRow).join('')+'</div>'+(db.items.length?'<button type="button" class="btn sm" data-act="add-line">'+esc(t('addLine'))+'</button>':'<p class="muted">'+esc(t('noItems'))+'</p>')+'</fieldset>'+
-    '<fieldset class="fs"><legend>'+esc(t('f.team'))+'</legend><div class="chips">'+staffHtml+'</div></fieldset>'+(window.NL_cat?window.NL_cat.fieldset(c):'')+photosFS()+reviewFS()+
+    '</div>'+
+    /* 1. Catalogue */
+    (window.NL_cat?window.NL_cat.fieldset(c):'')+
+    /* 2. Matériel pour cet événement */
+    '<fieldset class="fs"><legend>'+esc(t('f.equipment'))+'</legend><div id="lines">'+c.lines.map(lineRow).join('')+'</div>'+(db.items.length?'<button type="button" class="btn sm" data-act="add-line">'+esc(t('addLine'))+'</button>':'<p class="muted">'+esc(t('noItems'))+'</p>')+'</fieldset>'+
+    /* 3. Détails de la décoration et de la commande */
+    '<div class="fgrid" style="margin-top:16px">'+fld('c-order',t('f.order'),'<textarea id="c-order" rows="3">'+esc(c.order)+'</textarea>','full')+'</div>'+
+    /* 4. Équipe */
+    '<fieldset class="fs"><legend>'+esc(t('f.team'))+'</legend><div class="chips">'+staffHtml+'</div></fieldset>'+
+    /* 5. Photos */
+    photosFS()+
+    /* 6. Évaluation */
+    reviewFS()+
     '<p class="err" id="ferr" role="alert" hidden></p>'+footer(id,'del-client',t('confirmDelClient',{n:advN}))+'</form>';
   openModal(id?t('m.editClient'):t('m.newClient'),body);
+}
 }
 function advanceModal(id,clientId){
   var a=id?byId(db.advances,id):{clientId:clientId||'',amount:'',date:today(),method:'cash',note:''};
@@ -1365,10 +1376,12 @@ function starsIn(k){
   return h;
 }
 function reviewFS(){
-  var h='<fieldset class="fs"><legend>'+esc(t('rv.title'))+'</legend><p class="hint" style="margin-bottom:10px">'+esc(t('rv.hint'))+'</p><div class="field" style="margin-bottom:12px"><span class="lbl" id="rl-overall">'+esc(t('rv.overall'))+'</span><div class="stars-in" role="group" aria-labelledby="rl-overall" id="rv-overall">'+starsIn('overall')+'</div></div><div class="rv-grid">';
-  RVK.forEach(function(k){h+='<div class="field"><span class="lbl" id="rl-'+k+'">'+esc(t('rv.'+k))+'</span><div class="stars-in" role="group" aria-labelledby="rl-'+k+'" id="rv-'+k+'">'+starsIn(k)+'</div></div>'});
-  h+='</div>'+fld('c-rev',t('rv.comment'),'<textarea id="c-rev" rows="3">'+esc(formReview.comment)+'</textarea>')+'</fieldset>';
-  return h;
+  return '<fieldset class="fs"><legend>'+esc(t('rv.title'))+'</legend>'+
+    '<p class="hint" style="margin-bottom:10px">'+esc(t('rv.hint'))+'</p>'+
+    '<div class="field" style="margin-bottom:12px"><span class="lbl" id="rl-overall">'+esc(t('rv.overall'))+'</span><div class="stars-in" role="group" aria-labelledby="rl-overall" id="rv-overall">'+starsIn('overall')+'</div></div>'+
+    fld('c-rev',t('rv.comment'),'<textarea id="c-rev" rows="3">'+esc(formReview.comment)+'</textarea>')+
+    '</fieldset>';
+}
 }
 function reviewBlock(c){
   var r=c.review;if(!r||!(r.overall||r.comment))return '';
