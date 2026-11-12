@@ -1236,7 +1236,7 @@ function clientModal(id){
     fld('c-source',t('f.source'),srcSel(c.source))+
     fld('c-order',t('f.order'),'<textarea id="c-order" rows="3">'+esc(c.order)+'</textarea>','full')+
     '</div><fieldset class="fs"><legend>'+esc(t('f.equipment'))+'</legend><div id="lines">'+c.lines.map(lineRow).join('')+'</div>'+(db.items.length?'<button type="button" class="btn sm" data-act="add-line">'+esc(t('addLine'))+'</button>':'<p class="muted">'+esc(t('noItems'))+'</p>')+'</fieldset>'+
-    '<fieldset class="fs"><legend>'+esc(t('f.team'))+'</legend><div class="chips">'+staffHtml+'</div></fieldset>'+photosFS()+reviewFS()+
+    '<fieldset class="fs"><legend>'+esc(t('f.team'))+'</legend><div class="chips">'+staffHtml+'</div></fieldset>'+(window.NL_cat?window.NL_cat.fieldset(c):'')+photosFS()+reviewFS()+
     '<p class="err" id="ferr" role="alert" hidden></p>'+footer(id,'del-client',t('confirmDelClient',{n:advN}))+'</form>';
   openModal(id?t('m.editClient'):t('m.newClient'),body);
 }
@@ -1545,7 +1545,7 @@ var S={
     var staffIds=[].slice.call(f.querySelectorAll('.staff-cb:checked')).map(function(x){return x.value});
     var rvc=$('#c-rev',f).value.trim(),rv=formReview,review=null;
     if(rv.overall||rv.quality||rv.punctuality||rv.team||rv.value||rvc){var prevC=id?byId(db.clients,id):null;review={overall:rv.overall||0,quality:rv.quality||0,punctuality:rv.punctuality||0,team:rv.team||0,value:rv.value||0,comment:rvc,date:(prevC&&prevC.review&&prevC.review.date)||today()}}
-    var rec={name:name,phone:val(f,'c-phone'),phone2:val(f,'c-phone2'),address:val(f,'c-address'),eventType:val(f,'c-type'),date:date,venue:val(f,'c-venue'),status:val(f,'c-status'),total:num(val(f,'c-total')),order:$('#c-order',f).value.trim(),lines:lines,staffIds:staffIds,photos:formPhotos.slice(),source:val(f,'c-source'),review:review};
+    var rec={name:name,phone:val(f,'c-phone'),phone2:val(f,'c-phone2'),address:val(f,'c-address'),eventType:val(f,'c-type'),date:date,venue:val(f,'c-venue'),status:val(f,'c-status'),total:num(val(f,'c-total')),order:$('#c-order',f).value.trim(),lines:lines,staffIds:staffIds,photos:formPhotos.slice(),source:val(f,'c-source'),review:review,services:(window.NL_cat?window.NL_cat.collect():[])};
     if(id){var c=byId(db.clients,id);Object.assign(c,rec);delete c.demo}else db.clients.push(Object.assign({id:uid()},rec));
     closeModal();commit();toast(t('saved'));
   },
