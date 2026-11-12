@@ -1250,7 +1250,6 @@ function clientModal(id){
     '<p class="err" id="ferr" role="alert" hidden></p>'+footer(id,'del-client',t('confirmDelClient',{n:advN}))+'</form>';
   openModal(id?t('m.editClient'):t('m.newClient'),body);
 }
-}
 function advanceModal(id,clientId){
   var a=id?byId(db.advances,id):{clientId:clientId||'',amount:'',date:today(),method:'cash',note:''};
   if(!id&&!db.clients.length){toast(t('noClients'));return}
