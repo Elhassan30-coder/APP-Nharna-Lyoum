@@ -1382,7 +1382,6 @@ function reviewFS(){
     fld('c-rev',t('rv.comment'),'<textarea id="c-rev" rows="3">'+esc(formReview.comment)+'</textarea>')+
     '</fieldset>';
 }
-}
 function reviewBlock(c){
   var r=c.review;if(!r||!(r.overall||r.comment))return '';
   return '<div class="rv">'+(r.overall?'<span class="stars" role="img" aria-label="'+esc(t('rv.star',{n:r.overall}))+'">'+starsRO(r.overall)+'</span>':'')+(r.comment?'<div class="clamp muted" style="margin-top:4px">'+esc(r.comment)+'</div>':'')+'</div>';
