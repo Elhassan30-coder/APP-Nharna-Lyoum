@@ -1609,7 +1609,7 @@ var S={
   'save-expense':function(f){
     var id=f.dataset.id,label=val(f,'x-label'),amt=num(val(f,'x-amount'));
     if(!label||amt<=0)return formErr(t('err.expense'));
-    var rec={label:label,date:val(f,'x-date')||today(),category:val(f,'x-cat'),amount:amt,clientId:val(f,'x-client'),staffId:val(f,'x-staff'),supplierId:val(f,'x-supplier')};
+    var rec={label:label,date:val(f,'x-date')||today(),category:val(f,'x-cat'),kind:val(f,'x-kind')==='fixed'?'fixed':'variable',amount:amt,clientId:val(f,'x-client'),staffId:val(f,'x-staff'),supplierId:val(f,'x-supplier')};
     if(id){var e=byId(db.expenses,id);Object.assign(e,rec);delete e.demo}else db.expenses.push(Object.assign({id:uid()},rec));
     var bk=ui.back;ui.back='';closeModal();commit();toast(t('saved'));if(bk)supHistoryModal(bk);
   }
@@ -1636,7 +1636,7 @@ var A={
     else{var k=order.indexOf(db.attendance[i].st);if(k>=2)db.attendance.splice(i,1);else{db.attendance[i].st=order[k+1];delete db.attendance[i].demo}}
     var w=$('#attwrap'),sl=w?w.scrollLeft:0;commit();w=$('#attwrap');if(w)w.scrollLeft=sl;
   },
-  'att-pay':function(b){var s=byId(db.staff,b.dataset.id);expenseModal(null,{label:s.name+' · '+monthLabel(ui.attMonth),category:'salaries',staffId:s.id,amount:num(b.dataset.amount)||''})},
+  'att-pay':function(b){var s=byId(db.staff,b.dataset.id);expenseModal(null,{label:s.name+' · '+monthLabel(ui.attMonth),category:'salaries',kind:s.payType==='monthly'?'fixed':'variable',staffId:s.id,amount:num(b.dataset.amount)||''})},
   'doc':function(b){docModal(b.dataset.id)},
   'doc-dl':function(b){
     var c=byId(db.clients,b.dataset.id),type=b.dataset.type;if(!c||!caps.downloads)return;
@@ -1664,7 +1664,7 @@ var A={
   'edit-item':function(b){itemModal(b.dataset.id)},
   'add-staff':function(){staffModal()},
   'edit-staff':function(b){staffModal(b.dataset.id)},
-  'pay-staff':function(b){var s=byId(db.staff,b.dataset.id);expenseModal(null,{label:s.name,category:'salaries',staffId:s.id,amount:s.rate||''})},
+  'pay-staff':function(b){var s=byId(db.staff,b.dataset.id);expenseModal(null,{label:s.name,category:'salaries',kind:s.payType==='monthly'?'fixed':'variable',staffId:s.id,amount:s.rate||''})},
   'add-supplier':function(){supplierModal()},
   'edit-supplier':function(b){supplierModal(b.dataset.id)},
   'sup-hist':function(b){supHistoryModal(b.dataset.id)},
@@ -1672,7 +1672,8 @@ var A={
   'sup-edit-tx':function(b){expenseModal(b.dataset.id,null,b.dataset.sup)},
   'pay-supplier':function(b){var v=byId(db.suppliers,b.dataset.id);expenseModal(null,{label:v.name,category:'purchases',supplierId:v.id})},
   'del-supplier':function(b){var id=b.dataset.id;removeFrom(db.suppliers,id);db.expenses.forEach(function(e){if(e.supplierId===id)e.supplierId=''});closeModal();commit();toast(t('deleted'))},
-  'add-expense':function(){expenseModal()},
+   'ex-kind':function(b){ui.exKind=b.dataset.k;render()},
+   'add-expense':function(){expenseModal()},
   'edit-expense':function(b){expenseModal(b.dataset.id)},
   'add-line':function(){$('#lines').insertAdjacentHTML('beforeend',lineRow())},
   'rm-line':function(b){b.closest('.line').remove()},
@@ -1766,7 +1767,12 @@ root.addEventListener('input',function(e){
 });
 root.addEventListener('change',function(e){
   var id=e.target.id;
-  if(id==='st'){ui.st=e.target.value;render()}
+  if(id==='x-kind'){e.target.dataset.touched='1'}
+  else if(id==='x-cat'||id==='x-client'||id==='x-staff'){
+    var kf=$('#x-kind'),kform=e.target.form;
+    if(kf&&!kf.dataset.touched&&kform&&!kform.dataset.id)kf.value=defKind({category:$('#x-cat').value,clientId:$('#x-client').value,staffId:$('#x-staff').value},db.staff);
+  }
+  else if(id==='st'){ui.st=e.target.value;render()}
   else if(id==='mo'){ui.month=e.target.value;render()}
   else if(id==='fin-mo'){ui.fin=e.target.value;render()}
   else if(id==='sup-sc'){ui.sc=e.target.value;render()}
