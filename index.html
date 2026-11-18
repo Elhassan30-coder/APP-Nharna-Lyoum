@@ -467,12 +467,15 @@ var OPT={
   ic:['furniture','fabrics','lighting','flowers','tableware','structures','sound','other'],
   cond:['good','worn','repair'],
   ec:['rent','salaries','transport','purchases','subscriptions','utilities','other'],
+  ek:['fixed','variable'],
   pt:['daily','monthly'],
   sc:['catering','decor','rental','sound','photo','venue','transport','pastry','print','entertain','other'],
   pl:['instagram','facebook','tiktok','other'],
   src:['instagram','facebook','tiktok','whatsapp','referral','website','other']
 };
 function catList(k){return OPT[k].concat((db.meta.cats&&db.meta.cats[k])||[])}
+var EK_DEF={rent:'fixed',salaries:'fixed',subscriptions:'fixed',utilities:'fixed'};
+function defKind(e,staff){if(e.clientId)return 'variable';var s=e.staffId?byId(staff||[],e.staffId):null;if(s)return s.payType==='monthly'?'fixed':'variable';return EK_DEF[e.category]||'variable'}
 var LOC={en:'en-GB',fr:'fr-FR',ar:'ar-MA-u-nu-latn'};
 function $(s,r){return (r||document).querySelector(s)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -517,7 +520,7 @@ function normalize(d){
   o.items.forEach(function(i){i.qty=num(i.qty);i.cost=num(i.cost);i.toBuy=num(i.toBuy);i.photo=i.photo||''});
   o.staff.forEach(function(s){s.rate=num(s.rate)});
   o.suppliers.forEach(function(x){x.name=x.name||'';x.contact=x.contact||'';x.phone=x.phone||'';x.email=x.email||'';x.address=x.address||'';x.service=x.service||'other';x.offer=x.offer||'';x.note=x.note||''});
-  o.expenses.forEach(function(e){e.amount=num(e.amount);e.date=e.date||today()});
+  o.expenses.forEach(function(e){e.amount=num(e.amount);e.date=e.date||today();if(e.kind!=='fixed'&&e.kind!=='variable')e.kind=defKind(e,o.staff)});
   o.stats.forEach(function(s){s.followers=num(s.followers);s.reach=num(s.reach);s.engagement=num(s.engagement);s.messages=num(s.messages);s.month=s.month||today().slice(0,7);s.platform=s.platform||'other'});
   return o;
 }
