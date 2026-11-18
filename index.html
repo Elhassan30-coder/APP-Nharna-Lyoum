@@ -1312,7 +1312,7 @@ function staffModal(id){
 }
 function expenseModal(id,pre,back){
   ui.back=back||'';
-  var e=id?byId(db.expenses,id):Object.assign({date:today(),label:'',category:'purchases'kind:'',amount:'',clientId:'',staffId:'',supplierId:''},pre||{});
+  var e=id?byId(db.expenses,id):Object.assign({date:today(),label:'',category:'purchases'kind:'',,amount:'',clientId:'',staffId:'',supplierId:''},pre||{});
   if(e.kind!=='fixed'&&e.kind!=='variable')e.kind=defKind(e,db.staff);
   var body='<form id="f" data-submit="save-expense" data-id="'+(id||'')+'" novalidate><div class="fgrid">'+
     fld('x-label',t('f.label'),inp('x-label',e.label,'text','autocomplete="off"'),'full')+
