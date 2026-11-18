@@ -639,7 +639,7 @@ function demoCount(){
 }
 
 /* ---------- ui state ---------- */
-var ui={q:'',catClosed:{},invCat:null,st:'all',sc:'all',exSup:'all',back:'',month:'all',fin:'all',simCost:'',simM:30,showText:false,calMode:'month',calRef:today(),attMonth:today().slice(0,7)};
+var ui={q:'',catClosed:{},invCat:null,st:'all',sc:'all',exSup:'all',back:'',month:'all',exKind:'all',fin:'all',simCost:'',simM:30,showText:false,calMode:'month',calRef:today(),attMonth:today().slice(0,7)};
 var view='home',pendingRestore=null,caps={downloads:{save:fallbackSave}},toastTimer=null,layout='side',formPhotos=[],formReview={},formItemPhoto='';
 
 /* ---------- small renderers ---------- */
@@ -1297,11 +1297,13 @@ function staffModal(id){
 }
 function expenseModal(id,pre,back){
   ui.back=back||'';
-  var e=id?byId(db.expenses,id):Object.assign({date:today(),label:'',category:'purchases',amount:'',clientId:'',staffId:'',supplierId:''},pre||{});
+  var e=id?byId(db.expenses,id):Object.assign({date:today(),label:'',category:'purchases'kind:'',amount:'',clientId:'',staffId:'',supplierId:''},pre||{});
+  if(e.kind!=='fixed'&&e.kind!=='variable')e.kind=defKind(e,db.staff);
   var body='<form id="f" data-submit="save-expense" data-id="'+(id||'')+'" novalidate><div class="fgrid">'+
     fld('x-label',t('f.label'),inp('x-label',e.label,'text','autocomplete="off"'),'full')+
     fld('x-date',t('f.date'),inp('x-date',e.date,'date'))+
     fld('x-cat',t('f.category'),sel('x-cat',catList('ec'),e.category,'ec.'))+
+   fld('x-kind',t('f.kind'),sel('x-kind',OPT.ek,e.kind,'ek.')+'<span class="hint">'+esc(t('ek.hintForm'))+'</span>')+
     fld('x-amount',t('f.amount'),inp('x-amount',e.amount,'number',numAttr()))+
     fld('x-supplier',t('f.supplier'),'<select id="x-supplier"><option value="">—</option>'+db.suppliers.slice().sort(function(a,b){return a.name.localeCompare(b.name,lang)}).map(function(v){return '<option value="'+v.id+'"'+(v.id===e.supplierId?' selected':'')+'>'+esc(v.name)+'</option>'}).join('')+'</select>')+
     fld('x-client',t('f.linkClient'),'<select id="x-client"><option value="">—</option>'+clientOptions(e.clientId||'',false)+'</select>')+
