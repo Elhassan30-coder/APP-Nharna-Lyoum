@@ -590,7 +590,7 @@ function seed(){
 }
 var db=(function(){
   try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);if(o&&o.clients)return normalize(o)}}catch(e){}
-  return seed();
+   return normalize({});
 })();
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(db));storageFull=false}catch(e){if(storageOK)storageFull=true}
   try{if(window.NL_onPersist)window.NL_onPersist(db)}catch(e){}}
